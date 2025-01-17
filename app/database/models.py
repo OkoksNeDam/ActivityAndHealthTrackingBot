@@ -13,8 +13,7 @@ class Base(AsyncAttrs, DeclarativeBase):
 class UserInfo(Base):
     __tablename__ = 'users_info'
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-    tg_id = mapped_column(BigInteger)
+    tg_id: Mapped[int] = mapped_column(primary_key=True)
     first_name: Mapped[str] = mapped_column(String(25))
     last_name: Mapped[str] = mapped_column(String(25))
 
