@@ -32,6 +32,15 @@ class UserHealthStatus(Base):
     date: Mapped[datetime] = mapped_column(DateTime())
 
 
+class UserWaterConsumption(Base):
+    __tablename__ = 'users_water_consumption'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    tg_id: Mapped[int] = mapped_column(BigInteger)
+    n_liters: Mapped[float] = mapped_column(Float())
+    date: Mapped[datetime] = mapped_column(DateTime())
+
+
 async def async_main():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
