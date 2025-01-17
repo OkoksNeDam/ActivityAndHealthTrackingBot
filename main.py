@@ -3,11 +3,12 @@ from aiogram import Bot, Dispatcher
 from app.config import BOT_TOKEN
 from app.database.models import async_main
 from app.handlers.start import start_router
+from app.handlers.health_status import health_status_router
 
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
-dp.include_router(start_router)
+dp.include_routers(start_router, health_status_router)
 
 
 async def main():
