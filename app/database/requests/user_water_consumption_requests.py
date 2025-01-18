@@ -1,4 +1,4 @@
-from sqlalchemy import select, extract
+from sqlalchemy import select, extract, ScalarResult
 
 from app.database.models import async_session
 from app.database.models import UserWaterConsumption
@@ -14,8 +14,9 @@ async def set_water_consumption(tg_id: int, n_liters: float, date: datetime) -> 
 
 async def get_total_water_consumption(tg_id: int, date: datetime) -> float:
     async with async_session() as session:
-        return await session.scalars(select(func.sum(UserWaterConsumption.n_liters))
-                                     .where(UserWaterConsumption.tg_id == tg_id)
-                                     .filter(extract('year', UserWaterConsumption.date) == date.year)
-                                     .filter(extract('month', UserWaterConsumption.date) == date.month)
-                                     .filter(extract('day', UserWaterConsumption.date) == date.day))
+        water_consumption = await session.scalars(select(func.sum(UserWaterConsumption.n_liters))
+                                                  .where(UserWaterConsumption.tg_id == tg_id)
+                                                  .filter(extract('year', UserWaterConsumption.date) == date.year)
+                                                  .filter(extract('month', UserWaterConsumption.date) == date.month)
+                                                  .filter(extract('day', UserWaterConsumption.date) == date.day))
+        return water_consumption.first()
