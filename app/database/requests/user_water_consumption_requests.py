@@ -1,7 +1,7 @@
-from sqlalchemy import select, extract, ScalarResult
+from sqlalchemy import select, extract
 
-from app.database.models import async_session
-from app.database.models import UserWaterConsumption
+from app.database.models.models import async_session
+from app.database.models.models import UserWaterConsumption
 from datetime import datetime
 from sqlalchemy.sql import func
 

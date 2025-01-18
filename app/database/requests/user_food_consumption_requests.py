@@ -1,7 +1,7 @@
 from sqlalchemy import select, func, extract
 
-from app.database.models import async_session
-from app.database.models import UserFoodConsumption
+from app.database.models.models import async_session
+from app.database.models.models import UserFoodConsumption
 from datetime import datetime
 
 

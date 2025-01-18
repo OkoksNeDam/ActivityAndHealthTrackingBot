@@ -1,11 +1,11 @@
 import asyncio
 from aiogram import Bot, Dispatcher
 from app.config import BOT_TOKEN
-from app.database.models import async_main
+from app.database.models.models import async_main
 from app.handlers.check_progress import check_progress_router
 from app.handlers.health_status import health_status_router
 from app.handlers.start import start_router
-from app.handlers.user_workout_info import user_workout_info_router
+from app.handlers.user_workout_info_handler import user_workout_info_router
 from app.handlers.water_consumption import water_consumption_router
 from app.handlers.food_consumption import food_consumption_router
 

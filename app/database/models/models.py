@@ -3,6 +3,8 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 from datetime import datetime
 
+from app.utils.utils import WorkoutType
+
 engine = create_async_engine(url='sqlite+aiosqlite:///db.sqlite3')
 async_session = async_sessionmaker(engine)
 
@@ -11,7 +13,17 @@ class Base(AsyncAttrs, DeclarativeBase):
     pass
 
 
-class UserInfo(Base):
+class UserPersonalInfo(Base):
+    """
+    Private user information.
+
+    Contains information that is specified when registering a user.
+
+    Attributes:
+        tg_id: unique user identificator.
+        first_name: user's first name.
+        last_name: user's last name.
+    """
     __tablename__ = 'users_info'
 
     tg_id: Mapped[int] = mapped_column(primary_key=True)
@@ -20,6 +32,9 @@ class UserInfo(Base):
 
 
 class UserHealthStatus(Base):
+    """
+
+    """
     __tablename__ = 'users_health_status'
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -52,12 +67,21 @@ class UserFoodConsumption(Base):
 
 
 class UserWorkoutInfo(Base):
+    """
+    User training information.
+
+    Attributes:
+        tg_id: unique user identificator.
+        workout_type: type of workout.
+        duration: training time in minutes.
+        date: training date.
+    """
     __tablename__ = 'users_workout_info'
 
     id: Mapped[int] = mapped_column(primary_key=True)
     tg_id: Mapped[int] = mapped_column(BigInteger)
-    workout_type: Mapped[str] = mapped_column(String(20))
-    duration: Mapped[float] = mapped_column(Float())
+    workout_type: Mapped[WorkoutType] = mapped_column()
+    duration: Mapped[int] = mapped_column(Float())
     date: Mapped[datetime] = mapped_column(DateTime())
 
 

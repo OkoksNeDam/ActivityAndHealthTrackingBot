@@ -1,8 +1,8 @@
 from typing import List
 
-from app.database.models import async_session
+from app.database.models.models import async_session
 from sqlalchemy import select, extract
-from app.database.models import UserHealthStatus
+from app.database.models.models import UserHealthStatus
 from datetime import datetime
 
 

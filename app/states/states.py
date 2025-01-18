@@ -7,3 +7,11 @@ class HealthStatusState(StatesGroup):
     choosing_age = State()
     choosing_activity_level = State()
     choosing_city = State()
+
+
+class WorkoutInfoState(StatesGroup):
+    """
+    States when filling out training information.
+    """
+    choosing_workout_type = State()
+    choosing_duration = State()

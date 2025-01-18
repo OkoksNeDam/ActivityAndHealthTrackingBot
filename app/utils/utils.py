@@ -1,8 +1,17 @@
 import requests
 from app.config import WEATHER_API_KEY
+from enum import Enum
 
 WEATHER_API_URL = "http://api.weatherapi.com/v1/current.json"
 FOOD_INFO_API_URL = "https://world.openfoodfacts.org/cgi/search.pl"
+
+
+class WorkoutType(Enum):
+    STRENGTH_WORKOUT = 'силовая'
+    CARDIO_WORKOUT = 'кардио'
+    FUNCTIONAL_WORKOUT = 'функциональная'
+    DANCE_WORKOUT = 'танцы'
+    YOGA_WORKOUT = 'йога'
 
 
 def get_temperature_in(city: str) -> float:
@@ -25,12 +34,28 @@ def calc_calories_intake(weight: float, height: float, age: int) -> float:
     return 10 * weight + 6.5 * height - 5 * age
 
 
-def calc_calories_from_workout(workout_type: str, workout_duration: float) -> float:
-    # TODO: добавить нормальную логику вычисления сожженных калорий.
-    if workout_type == 'бег':
-        return workout_duration * 10
-    else:
-        return workout_duration * 5
+def calc_burned_calories_from_workout(workout_type: WorkoutType, workout_duration: int) -> float:
+    """
+    Calculation of calories burned.
+
+    Calculate calories burned by workout type and duration. For each type of workout,
+    the number of calories burned will be different.
+
+    The total number of calories is calculated using the following formula: duration * duration_factor
+
+    :param workout_type: type of workout.
+    :param workout_duration: duration of workout in minutes.
+    :return: number of burned calories.
+    """
+    workout_duration_factor = {
+        WorkoutType.STRENGTH_WORKOUT: 10,
+        WorkoutType.CARDIO_WORKOUT: 15,
+        WorkoutType.DANCE_WORKOUT: 8,
+        WorkoutType.FUNCTIONAL_WORKOUT: 3,
+        WorkoutType.YOGA_WORKOUT: 3
+    }
+
+    return workout_duration * workout_duration_factor[workout_type]
 
 
 def get_calories_of(product_name: str) -> float:
