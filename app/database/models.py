@@ -41,6 +41,16 @@ class UserWaterConsumption(Base):
     date: Mapped[datetime] = mapped_column(DateTime())
 
 
+class UserFoodConsumption(Base):
+    __tablename__ = 'users_food_consumption'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    tg_id: Mapped[int] = mapped_column(BigInteger)
+    food_name: Mapped[str] = mapped_column(String(20))
+    n_calories_consumed: Mapped[float] = mapped_column(Float())
+    date: Mapped[datetime] = mapped_column(DateTime())
+
+
 async def async_main():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
