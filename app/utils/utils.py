@@ -14,11 +14,15 @@ def get_temperature_in(city: str) -> float:
     return temperature
 
 
-def calc_water_intake(weight: float, activity_level: float, city: str):
+def calc_water_intake(weight: float, activity_level: float, city: str) -> float:
     temperature = get_temperature_in(city)
     required_water_amount = weight * 30 + 500 * activity_level / 30 + (500 if temperature > 25 else 0)
     required_water_amount /= 1000
     return required_water_amount
+
+
+def calc_calories_intake(weight: float, height: float, age: int) -> float:
+    return 10 * weight + 6.5 * height - 5 * age
 
 
 def get_calories_of(product_name: str) -> float:
