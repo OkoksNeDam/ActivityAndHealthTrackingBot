@@ -25,6 +25,14 @@ def calc_calories_intake(weight: float, height: float, age: int) -> float:
     return 10 * weight + 6.5 * height - 5 * age
 
 
+def calc_calories_from_workout(workout_type: str, workout_duration: float) -> float:
+    # TODO: добавить нормальную логику вычисления сожженных калорий.
+    if workout_type == 'бег':
+        return workout_duration * 10
+    else:
+        return workout_duration * 5
+
+
 def get_calories_of(product_name: str) -> float:
     response = requests.get(FOOD_INFO_API_URL, params={
         'action': 'process',
