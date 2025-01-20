@@ -4,7 +4,7 @@ from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message
 
-from app.database.requests import user_health_status_requests, user_water_consumption_requests,\
+from app.database.requests import user_main_info_requests, user_water_consumption_requests, \
     user_food_consumption_requests, user_workout_info_requests
 from app.utils.utils import calc_water_intake, calc_calories_intake
 
@@ -13,14 +13,19 @@ check_progress_router = Router()
 
 @check_progress_router.message(Command("check_progress"))
 async def check_progress(message: Message):
-    today_health_status_list = await user_health_status_requests.get_health_status(tg_id=message.from_user.id,
-                                                                                   date=datetime.now())
-    today_health_status_list = list(today_health_status_list)
-    if not today_health_status_list:
-        await message.answer("Для отображения того, сколько осталось для выполнения нормы, добавьте"
-                             "актуальную информацию о здоровье с помощью команды /set_health_status")
+    """
+    Handler for check_progress command.
+    """
+    user_main_info_list = await user_main_info_requests.get_user_main_info(tg_id=message.from_user.id,
+                                                                                date=datetime.now())
+    # TODO: вместо if else добавить исключения
+    user_main_info_list = list(user_main_info_list)
+    if not user_main_info_list:
+        await message.answer("❗ Для отображения прогресса добавьте актуальную информацию"
+                             " о здоровье с помощью команды /set_profile")
     else:
-        user_latest_health_status = today_health_status_list[-1]
+        # Since the user could add several data in one day, we select the last added information.
+        user_latest_health_status = user_main_info_list[-1]
         today_water_consumption = \
             await user_water_consumption_requests.get_total_water_consumption(tg_id=message.from_user.id,
                                                                               date=datetime.now())
@@ -37,7 +42,7 @@ async def check_progress(message: Message):
         await message.answer(f"📊 Прогресс на сегодня:\n\n"
                              f"💧 Вода:\n"
                              f"- Выпито: {today_water_consumption} л.\n"
-                             f"- Норма: {round(required_water_amount, 2)} л.\n\n"
+                             f"- Норма: {round(required_water_amount)} л.\n\n"
                              f"🍫 Калории:\n"
                              f"- Потреблено: {today_calories_consumption} ккал.\n"
                              f"- Сожжено: {today_calories_burned} ккал.\n"

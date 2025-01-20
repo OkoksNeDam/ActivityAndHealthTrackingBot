@@ -15,6 +15,11 @@ class WorkoutType(Enum):
 
 
 def get_temperature_in(city: str) -> float:
+    """
+    Get temperature in selected city using API.
+    :param city: city fot which you need to find the temperature.
+    :return: temperature in selected city.
+    """
     response = requests.get(WEATHER_API_URL, params={
         'key': WEATHER_API_KEY,
         'q': city
@@ -24,6 +29,14 @@ def get_temperature_in(city: str) -> float:
 
 
 def calc_water_intake(weight: float, activity_level: float, city: str) -> float:
+    """
+    Calculation of the norm of water consumption using the formula:
+    weight * 30 + 500 * activity_level / 30 + 500 * [temperature > 25]
+    :param weight: weight of person.
+    :param activity_level: activity_level of person.
+    :param city: current person's city.
+    :return: water norm in ml.
+    """
     temperature = get_temperature_in(city)
     required_water_amount = weight * 30 + 500 * activity_level / 30 + (500 if temperature > 25 else 0)
     required_water_amount /= 1000
@@ -31,6 +44,14 @@ def calc_water_intake(weight: float, activity_level: float, city: str) -> float:
 
 
 def calc_calories_intake(weight: float, height: float, age: int) -> float:
+    """
+    Calculation of calorie intake using the following formula:
+    10 * weight + 6.5 * height - 5 * age.
+    :param weight:
+    :param height:
+    :param age:
+    :return:
+    """
     return 10 * weight + 6.5 * height - 5 * age
 
 
@@ -59,6 +80,12 @@ def calc_burned_calories_from_workout(workout_type: WorkoutType, workout_duratio
 
 
 def get_calories_of(product_name: str) -> float:
+    """
+    Find number of product calories using API.
+    :param product_name: name of the product for which calories are being searched.
+    :return: number of product calories.
+    """
+    # TODO: добавить обработку исключения
     response = requests.get(FOOD_INFO_API_URL, params={
         'action': 'process',
         'search_terms': product_name,

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sqlalchemy import BigInteger, String, Integer, Float, DateTime
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
@@ -24,30 +26,47 @@ class UserPersonalInfo(Base):
         first_name: user's first name.
         last_name: user's last name.
     """
-    __tablename__ = 'users_info'
+    __tablename__ = 'users_personal_info'
 
     tg_id: Mapped[int] = mapped_column(primary_key=True)
     first_name: Mapped[str] = mapped_column(String(25))
-    last_name: Mapped[str] = mapped_column(String(25))
+    last_name: Mapped[str] = mapped_column(String(25), nullable=True)
 
 
-class UserHealthStatus(Base):
+class UserMainInfo(Base):
     """
+    Main information about user.
 
+    Attributes:
+        tg_id: unique user identificator.
+        weight: user's weight.
+        height: user's height.
+        age: user's age.
+        activity_level: activity level in minutes.
+        city: current city.
+        date: data update date.
     """
-    __tablename__ = 'users_health_status'
+    __tablename__ = 'users_main_info'
 
     id: Mapped[int] = mapped_column(primary_key=True)
     tg_id: Mapped[int] = mapped_column(BigInteger)
     weight: Mapped[float] = mapped_column(Float())
     height: Mapped[float] = mapped_column(Float())
     age: Mapped[int] = mapped_column(Integer())
-    activity_level: Mapped[float] = mapped_column(Float())
+    activity_level: Mapped[int] = mapped_column(Float())
     city: Mapped[str] = mapped_column(String(40))
     date: Mapped[datetime] = mapped_column(DateTime())
 
 
 class UserWaterConsumption(Base):
+    """
+    Information about the amount of water drunk on a specific date.
+
+    Attributes:
+        tg_id: unique user identificator.
+        n_liters: amount of water drunk in liters.
+        date: date on which the water was drunk
+    """
     __tablename__ = 'users_water_consumption'
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -57,12 +76,21 @@ class UserWaterConsumption(Base):
 
 
 class UserFoodConsumption(Base):
+    """
+    Information about the food eaten and the corresponding amount of calories.
+
+    Attributes:
+        tg_id: unique user identificator.
+        food_name: name of eaten product.
+        n_calories_consumed: number of consumed calories.
+        date: date on which the product was eaten.
+    """
     __tablename__ = 'users_food_consumption'
 
     id: Mapped[int] = mapped_column(primary_key=True)
     tg_id: Mapped[int] = mapped_column(BigInteger)
     food_name: Mapped[str] = mapped_column(String(20))
-    n_calories_consumed: Mapped[float] = mapped_column(Float())
+    n_calories_consumed: Mapped[int] = mapped_column(Float())
     date: Mapped[datetime] = mapped_column(DateTime())
 
 

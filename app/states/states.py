@@ -1,7 +1,10 @@
 from aiogram.fsm.state import State, StatesGroup
 
 
-class HealthStatusState(StatesGroup):
+class UserMainInfoState(StatesGroup):
+    """
+    States when filling users main info.
+    """
     choosing_weight = State()
     choosing_height = State()
     choosing_age = State()
