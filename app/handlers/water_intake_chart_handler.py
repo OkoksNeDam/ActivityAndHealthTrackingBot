@@ -15,6 +15,10 @@ async def log_water_intake_chart(message: Message):
     # All water consumption records for selected user.
     all_water_consumption_data = \
         await user_water_intake_requests.get_list_of_water_intake(tg_id=message.from_user.id)
+    all_water_consumption_data = list(all_water_consumption_data)
+    if not all_water_consumption_data:
+        await message.answer("😞 К сожалению, данные о потреблении воды отстствуют :(")
+        return
     n_liters_list, dates_list = zip(*map(lambda x: (x.n_liters, x.date), all_water_consumption_data))
 
     buffered_image = create_line_chart(x=dates_list, y=n_liters_list, x_label='dates', y_label='water intake')

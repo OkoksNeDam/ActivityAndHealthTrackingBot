@@ -59,7 +59,7 @@ def calc_calories_intake(weight: float, height: float, age: int) -> float:
     return 10 * weight + 6.5 * height - 5 * age
 
 
-def calc_burned_calories_from_workout(workout_type: WorkoutType, workout_duration: int) -> float:
+def calc_burned_calories_from_workout(workout_type: WorkoutType, workout_duration: int) -> int:
     """
     Calculation of calories burned.
 
@@ -101,7 +101,6 @@ def get_calories_of(product_name: str) -> float:
         if products:
             first_product = products[0]
             return first_product.get('nutriments', {}).get('energy-kcal_100g', 0)
-    print(f"Ошибка: {response.status_code}")
 
 
 def create_line_chart(x: list, y: list, x_label: str, y_label: str,

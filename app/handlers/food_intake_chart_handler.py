@@ -15,6 +15,10 @@ async def log_food_intake_chart(message: Message):
     # All food consumption records for selected user.
     all_food_consumption_data = \
         await user_food_intake_requests.get_list_of_food_intake(tg_id=message.from_user.id)
+    all_food_consumption_data = list(all_food_consumption_data)
+    if not all_food_consumption_data:
+        await message.answer("😞 К сожалению, данные о потребленных калориях отстствуют :(")
+        return
     n_calories_eaten_list, dates_list = zip(*map(lambda x: (x.n_calories_consumed, x.date), all_food_consumption_data))
 
     buffered_image = create_line_chart(x=dates_list, y=n_calories_eaten_list, x_label='dates', y_label='food intake')

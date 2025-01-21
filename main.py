@@ -23,7 +23,6 @@ dp.include_routers(start_router,
                    food_intake_chart_router)
 
 
-# TODO: добавить requirements.txt
 async def main():
     await async_main()
     await dp.start_polling(bot)

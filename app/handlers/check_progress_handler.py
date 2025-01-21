@@ -18,7 +18,6 @@ async def check_progress(message: Message):
     """
     user_main_info_list = await user_main_info_requests.get_user_main_info(tg_id=message.from_user.id,
                                                                            date=datetime.now())
-    # TODO: вместо if else добавить исключения
     user_main_info_list = list(user_main_info_list)
     if not user_main_info_list:
         await message.answer("❗ Для отображения прогресса добавьте актуальную информацию"

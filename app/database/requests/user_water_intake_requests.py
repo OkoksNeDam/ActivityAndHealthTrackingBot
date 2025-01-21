@@ -27,7 +27,7 @@ async def get_total_water_consumption(tg_id: int, date: datetime) -> float:
     :return: total sum of water consumption for selected date.
     """
     async with async_session() as session:
-        water_consumption = await session.scalars(select(func.sum(UserWaterIntake.n_liters))
+        water_consumption = await session.scalars(select(func.coalesce(func.sum(UserWaterIntake.n_liters), 0))
                                                   .where(UserWaterIntake.tg_id == tg_id)
                                                   .filter(extract('year', UserWaterIntake.date) == date.year)
                                                   .filter(extract('month', UserWaterIntake.date) == date.month)

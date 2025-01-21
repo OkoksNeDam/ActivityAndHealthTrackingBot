@@ -29,7 +29,7 @@ async def get_calories_sum(tg_id: int, date: datetime) -> float:
     :return: sum of calories consumed.
     """
     async with async_session() as session:
-        water_consumption = await session.scalars(select(func.sum(UserFoodIntake.n_calories_consumed))
+        water_consumption = await session.scalars(select(func.coalesce(func.sum(UserFoodIntake.n_calories_consumed), 0))
                                                   .where(UserFoodIntake.tg_id == tg_id)
                                                   .filter(extract('year', UserFoodIntake.date) == date.year)
                                                   .filter(extract('month', UserFoodIntake.date) == date.month)

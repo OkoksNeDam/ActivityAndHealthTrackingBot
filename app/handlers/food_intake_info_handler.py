@@ -25,11 +25,14 @@ async def log_food(message: Message, command: CommandObject):
         return
     n_grams_eaten = float(n_grams_eaten)
     product_calories = get_calories_of(product_name)
+    if not product_calories:
+        await message.answer("😞 К сожалению, не удалось найти информацию для данного продукта :(")
+        return
     n_calories_eaten = product_calories * n_grams_eaten / 100
     await message.answer(f"🍽️ {product_name} - {product_calories} ккал на 100 г.\n"
                          f"🍫 Количество употребленных калорий: {n_calories_eaten} ккал.")
     await user_food_intake_requests.set_food_consumption(tg_id=message.from_user.id,
-                                                              food_name=product_name,
-                                                              n_calories_consumed=n_calories_eaten,
-                                                              date=datetime.now())
+                                                         food_name=product_name,
+                                                         n_calories_consumed=n_calories_eaten,
+                                                         date=datetime.now())
     await message.answer("🎆 Данные были успешно сохранены, спасибо!")
