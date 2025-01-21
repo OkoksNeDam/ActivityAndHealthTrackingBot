@@ -1,4 +1,8 @@
+import pandas as pd
 import requests
+from aiogram.types import BufferedInputFile
+import plotly.express as px
+
 from app.config import WEATHER_API_KEY
 from enum import Enum
 
@@ -85,7 +89,6 @@ def get_calories_of(product_name: str) -> float:
     :param product_name: name of the product for which calories are being searched.
     :return: number of product calories.
     """
-    # TODO: добавить обработку исключения
     response = requests.get(FOOD_INFO_API_URL, params={
         'action': 'process',
         'search_terms': product_name,
@@ -94,7 +97,21 @@ def get_calories_of(product_name: str) -> float:
     if response.status_code == 200:
         data = response.json()
         products = data.get('products', [])
-        if products:  # Проверяем, есть ли найденные продукты
+        # Checking if there are any products found.
+        if products:
             first_product = products[0]
             return first_product.get('nutriments', {}).get('energy-kcal_100g', 0)
     print(f"Ошибка: {response.status_code}")
+
+
+def create_line_chart(x: list, y: list, x_label: str, y_label: str,
+                      file_type: str = "png", filename: str = "file.txt") -> BufferedInputFile:
+    """
+    Creating line chart from x and y data.
+    """
+    water_consumption_fig = px.line(pd.DataFrame({y_label: y, x_label: x}), x=x_label, y=y_label)
+
+    img_bytes = water_consumption_fig.to_image(format=file_type)
+    text_file = BufferedInputFile(img_bytes, filename=filename)
+
+    return text_file

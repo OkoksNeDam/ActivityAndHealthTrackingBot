@@ -58,7 +58,7 @@ class UserMainInfo(Base):
     date: Mapped[datetime] = mapped_column(DateTime())
 
 
-class UserWaterConsumption(Base):
+class UserWaterIntake(Base):
     """
     Information about the amount of water drunk on a specific date.
 
@@ -67,7 +67,7 @@ class UserWaterConsumption(Base):
         n_liters: amount of water drunk in liters.
         date: date on which the water was drunk
     """
-    __tablename__ = 'users_water_consumption'
+    __tablename__ = 'users_water_intake'
 
     id: Mapped[int] = mapped_column(primary_key=True)
     tg_id: Mapped[int] = mapped_column(BigInteger)
@@ -75,7 +75,7 @@ class UserWaterConsumption(Base):
     date: Mapped[datetime] = mapped_column(DateTime())
 
 
-class UserFoodConsumption(Base):
+class UserFoodIntake(Base):
     """
     Information about the food eaten and the corresponding amount of calories.
 
@@ -85,7 +85,7 @@ class UserFoodConsumption(Base):
         n_calories_consumed: number of consumed calories.
         date: date on which the product was eaten.
     """
-    __tablename__ = 'users_food_consumption'
+    __tablename__ = 'users_food_intake'
 
     id: Mapped[int] = mapped_column(primary_key=True)
     tg_id: Mapped[int] = mapped_column(BigInteger)
