@@ -10,6 +10,7 @@ from app.handlers.water_intake_chart_handler import water_intake_chart_router
 from app.handlers.workout_info_handler import user_workout_info_router
 from app.handlers.water_intake_info_handler import water_consumption_router
 from app.handlers.food_intake_info_handler import food_consumption_router
+from app.middlewares.middlewares import LoggingMiddleware
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
@@ -22,10 +23,13 @@ dp.include_routers(start_router,
                    water_intake_chart_router,
                    food_intake_chart_router)
 
+dp.message.middleware(LoggingMiddleware())
+
 
 async def main():
     await async_main()
     await dp.start_polling(bot)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
