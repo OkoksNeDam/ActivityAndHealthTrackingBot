@@ -11,6 +11,7 @@ from app.handlers.workout_info_handler import user_workout_info_router
 from app.handlers.water_intake_info_handler import water_consumption_router
 from app.handlers.food_intake_info_handler import food_consumption_router
 from app.middlewares.middlewares import LoggingMiddleware
+import logging
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
@@ -27,6 +28,7 @@ dp.message.middleware(LoggingMiddleware())
 
 
 async def main():
+    logging.basicConfig(level=logging.INFO, filename="py_log.log", filemode="w")
     await async_main()
     await dp.start_polling(bot)
 
